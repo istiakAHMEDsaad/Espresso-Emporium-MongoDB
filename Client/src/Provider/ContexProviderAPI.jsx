@@ -3,13 +3,20 @@ import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast, Bounce } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../Utilities/firebase.init';
 
 export const ContexAPI = createContext(null);
+
 const ContexProviderAPI = ({ children }) => {
-  // Fetch All Data
   const [coffee, setCoffee] = useState([]);
   const [removeCoffee, setRemoveCoffee] = useState(coffee);
-  
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
+  // Fetch All Data
   useEffect(() => {
     fetch('http://localhost:3000/add-coffee/')
       .then((res) => res.json())
@@ -108,12 +115,21 @@ const ContexProviderAPI = ({ children }) => {
     });
   };
 
-
+ // Create user with email & password
+ const createCoffeeUser = (email, password) => {
+  setLoading(true);
+  return createUserWithEmailAndPassword(auth, email, password);
+ }
 
   const value = {
+    // MongoDB
     handleAddCoffee,
     coffee,
     handleCoffeeDelete,
+    // Firebase
+    loading,
+    user,
+    createCoffeeUser,
   };
 
   return <ContexAPI.Provider value={value}>{children}</ContexAPI.Provider>;
