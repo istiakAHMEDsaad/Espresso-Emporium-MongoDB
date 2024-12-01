@@ -8,6 +8,7 @@ import UpdateCoffee from '../Pages/UpdateCoffee';
 import NotFound from '../Pages/NotFound';
 import SignUp from '../Pages/SignUp';
 import Login from '../Pages/Login';
+import User from '../Pages/User';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
       {
         path: `/login`,
         element: <Login></Login>,
+      },
+      {
+        path: `/user`,
+        element: <User></User>,
+        loader: ()=>fetch(`http://localhost:3000/users/`)
       },
       {
         path: "*",
