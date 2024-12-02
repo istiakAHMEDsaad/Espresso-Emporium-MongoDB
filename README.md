@@ -1,3 +1,11 @@
+# Live Deploy
+[Espresso Emporium](https://espresso-emporium-crud-754df.web.app)
+
+# API
+```
+https://espresso-emporium-server-pi-seven.vercel.app/
+```
+
 # Client Server Technology
 [React Router](https://reactrouter.com/6.28.0/start/tutorial#tutorial)<br />
 [TailwindCSS + Vite](https://tailwindcss.com/docs/guides/vite)<bt />

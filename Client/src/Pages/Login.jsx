@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { Slide, toast } from 'react-toastify';
 import { ContexAPI } from '../Provider/ContexProviderAPI';
-import { toast, Slide } from 'react-toastify';
 
 const Login = () => {
-  const {signInUser} = useContext(ContexAPI);
+  const { signInUser } = useContext(ContexAPI);
 
   // Handle User Login
   const handleSignIn = (event) => {
@@ -15,10 +15,10 @@ const Login = () => {
     const email = form.get('email');
     const password = form.get('password');
     const loginUser = { email, password };
-    
+
     signInUser(email, password)
-    .then(userCredential=>{
-      const user = userCredential.user;
+      .then((userCredential) => {
+        const user = userCredential.user;
         // console.log(user);
         if (user) {
           toast.success('Account create successfully!', {
@@ -34,22 +34,22 @@ const Login = () => {
           });
         }
         const lastSignInTime = user?.metadata?.lastSignInTime;
-        const logInInfo = {email, lastSignInTime}
-        fetch(`http://localhost:3000/users/`, {
+        const logInInfo = { email, lastSignInTime };
+        fetch(`https://espresso-emporium-server-pi-seven.vercel.app/users/`, {
           method: 'PATCH',
           headers: {
             'content-type': 'application/json',
           },
-          body: JSON.stringify(logInInfo)
+          body: JSON.stringify(logInInfo),
         })
-        .then(res=>res.json())
-        .then(data=>{})
-        .catch(error=>console.error(error))
-    })
-    .catch(error=>{
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    })
+          .then((res) => res.json())
+          .then((data) => {})
+          .catch((error) => console.error(error));
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
@@ -114,12 +114,7 @@ const Login = () => {
 
             {/* Sign Up Button */}
             <div className='form-control mt-6'>
-              <button
-                
-                className='btn btn-neutral bg-brown'
-              >
-                Login
-              </button>
+              <button className='btn btn-neutral bg-brown'>Login</button>
             </div>
           </form>
         </div>

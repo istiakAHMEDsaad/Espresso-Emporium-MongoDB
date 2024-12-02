@@ -1,11 +1,13 @@
 // @ts-nocheck
-import { createContext, useEffect, useState } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import PropTypes from 'prop-types';
-import { toast, Bounce } from 'react-toastify';
+import { createContext, useEffect, useState } from 'react';
+import { Bounce, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../Utilities/firebase.init';
-import { FaRemoveFormat } from 'react-icons/fa';
 
 export const ContexAPI = createContext(null);
 
@@ -18,7 +20,7 @@ const ContexProviderAPI = ({ children }) => {
 
   // Fetch All Data
   useEffect(() => {
-    fetch('http://localhost:3000/add-coffee/')
+    fetch('https://espresso-emporium-server-pi-seven.vercel.app/add-coffee/')
       .then((res) => res.json())
       .then((data) => setCoffee(data))
       .catch((err) => console.error(err));
@@ -39,7 +41,7 @@ const ContexProviderAPI = ({ children }) => {
     // console.log(newCoffee);
 
     // Send Data to the server
-    fetch('http://localhost:3000/add-coffee', {
+    fetch('https://espresso-emporium-server-pi-seven.vercel.app/add-coffee', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -94,9 +96,12 @@ const ContexProviderAPI = ({ children }) => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/add-coffee/${_id}`, {
-          method: 'DELETE',
-        })
+        fetch(
+          `https://espresso-emporium-server-pi-seven.vercel.app/add-coffee/${_id}`,
+          {
+            method: 'DELETE',
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -122,10 +127,10 @@ const ContexProviderAPI = ({ children }) => {
   };
 
   // handle login
-  const signInUser = (email, password) =>{
+  const signInUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
-  }
+  };
 
   const value = {
     // MongoDB

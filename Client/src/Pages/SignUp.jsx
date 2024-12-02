@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { ContexAPI } from '../Provider/ContexProviderAPI';
-import { toast, Slide } from 'react-toastify';
+import { Slide, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { ContexAPI } from '../Provider/ContexProviderAPI';
 
 const SignUp = () => {
   const { createCoffeeUser } = useContext(ContexAPI);
@@ -96,14 +96,14 @@ const SignUp = () => {
         }
 
         const creationTime = user?.metadata?.creationTime;
-        const newUser = {name, email, creationTime}
+        const newUser = { name, email, creationTime };
         // Save new user info to the database
-        fetch(`http://localhost:3000/users`,{
+        fetch(`https://espresso-emporium-server-pi-seven.vercel.app/users`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json',
           },
-          body: JSON.stringify(newUser)
+          body: JSON.stringify(newUser),
         })
           .then((response) => response.json())
           .then((data) => {

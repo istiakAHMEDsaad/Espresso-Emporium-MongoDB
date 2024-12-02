@@ -1,49 +1,47 @@
-import { useLoaderData } from 'react-router-dom';
 import { FaLongArrowAltLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { toast, Bounce } from 'react-toastify';
+import { Link, useLoaderData } from 'react-router-dom';
+import { Bounce, toast } from 'react-toastify';
 
 const UpdateCoffee = () => {
   const singleCoffeeUpdate = useLoaderData();
   const { _id } = singleCoffeeUpdate || {};
 
-    // Handle Update Coffee Data
-    const handleUpdateCoffee = (event)=> {
-        event.preventDefault();
-        const form = new FormData(event.target);
-        const name = form.get('name');
-        const chef = form.get('chef');
-        const price = form.get('price');
-        const taste = form.get('taste');
-        const category = form.get('category');
-        const details = form.get('details');
-        const photo = form.get('photo');
-        const newUpdateCoffee = { name, chef, price, taste, category, details, photo };
-        // console.log(newUpdateCoffee);
-    
-        fetch(`http://localhost:3000/add-coffee/${_id}`,{
-          method: 'PUT',
-          headers: {
-            'content-type': 'application/json',
-          },
-          body: JSON.stringify(newUpdateCoffee),
-        }).then(res=>res.json()).then(data=>{
-          if(data.modifiedCount > 0){
-            toast.success('Coffee Updated Successfully!', {
-              position: 'top-center',
-              autoClose: 2000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'colored',
-              transition: Bounce,
-            });
-          }
-        }).catch(err=>{
-          console.error(err);
-          toast.warn('Something Wrong!', {
+  // Handle Update Coffee Data
+  const handleUpdateCoffee = (event) => {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const name = form.get('name');
+    const chef = form.get('chef');
+    const price = form.get('price');
+    const taste = form.get('taste');
+    const category = form.get('category');
+    const details = form.get('details');
+    const photo = form.get('photo');
+    const newUpdateCoffee = {
+      name,
+      chef,
+      price,
+      taste,
+      category,
+      details,
+      photo,
+    };
+    // console.log(newUpdateCoffee);
+
+    fetch(
+      `https://espresso-emporium-server-pi-seven.vercel.app/add-coffee/${_id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(newUpdateCoffee),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          toast.success('Coffee Updated Successfully!', {
             position: 'top-center',
             autoClose: 2000,
             hideProgressBar: false,
@@ -54,8 +52,23 @@ const UpdateCoffee = () => {
             theme: 'colored',
             transition: Bounce,
           });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.warn('Something Wrong!', {
+          position: 'top-center',
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+          transition: Bounce,
         });
-      }
+      });
+  };
 
   return (
     <div className='mb-10'>
