@@ -3,18 +3,18 @@ import { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast, Bounce } from 'react-toastify';
 import Swal from 'sweetalert2';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../Utilities/firebase.init';
+import { FaRemoveFormat } from 'react-icons/fa';
 
 export const ContexAPI = createContext(null);
 
 const ContexProviderAPI = ({ children }) => {
   const [coffee, setCoffee] = useState([]);
-  const [removeCoffee, setRemoveCoffee] = useState(coffee);
+  // const [removeCoffee, setRemoveCoffee] = useState(coffee);
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
 
   // Fetch All Data
   useEffect(() => {
@@ -94,20 +94,20 @@ const ContexProviderAPI = ({ children }) => {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/add-coffee/${_id}`,{
+        fetch(`http://localhost:3000/add-coffee/${_id}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
-            if(data.deletedCount > 0){
+            if (data.deletedCount > 0) {
               Swal.fire({
                 title: 'Deleted!',
-                text: 'Your coffee has been deleted.',
+                text: 'Your coffee has been deleted. Refresh Page',
                 icon: 'success',
               });
-              const remaining = removeCoffee.filter(cof=>cof._id !== _id);
-              setRemoveCoffee(remaining);
+              const remaining = removeCoffee.filter((cof) => cof._id !== _id);
+              setCoffee(remaining);
             }
           })
           .catch((err) => console.error(err));
@@ -115,11 +115,17 @@ const ContexProviderAPI = ({ children }) => {
     });
   };
 
- // Create user with email & password
- const createCoffeeUser = (email, password) => {
-  setLoading(true);
-  return createUserWithEmailAndPassword(auth, email, password);
- }
+  // Create user with email & password
+  const createCoffeeUser = (email, password) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  // handle login
+  const signInUser = (email, password) =>{
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  }
 
   const value = {
     // MongoDB
@@ -130,6 +136,8 @@ const ContexProviderAPI = ({ children }) => {
     loading,
     user,
     createCoffeeUser,
+    // Signin
+    signInUser,
   };
 
   return <ContexAPI.Provider value={value}>{children}</ContexAPI.Provider>;
