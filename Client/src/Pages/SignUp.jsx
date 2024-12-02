@@ -108,7 +108,7 @@ const SignUp = () => {
           .then((response) => response.json())
           .then((data) => {
             // console.log(data);
-            if(data.insertedId){
+            /* if(data.insertedId){
               toast.success('User created in databse!', {
                 position: 'top-center',
                 autoClose: 1000,
@@ -120,7 +120,7 @@ const SignUp = () => {
                 theme: 'colored',
                 transition: Slide,
               });
-            }
+            } */
           })
           .catch((error) => console.error(error));
       })
@@ -266,7 +266,7 @@ const SignUp = () => {
 export default SignUp;
 
 /* 
-Rahim@gmail.com, 123456
-bojorudding@gmail.com, Bojor@1234
+Rahim@gmail.com, Rahim@1234
+Bojorudding@gmail.com, Bojor@1234
 bodir_ami@gmail.com, Bodir@1234
 */
