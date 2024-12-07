@@ -1,6 +1,8 @@
 # Live Deploy
 [Espresso Emporium](https://espresso-emporium-crud-754df.web.app)
 
+![Espresso Emporium Application](./coffee.PNG)
+
 # API
 ```
 https://espresso-emporium-server-pi-seven.vercel.app/
